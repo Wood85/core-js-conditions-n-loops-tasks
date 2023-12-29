@@ -109,8 +109,26 @@ function isIsoscelesTriangle(a, b, c) {
  *  10  => X
  *  26  => XXVI
  */
-function convertToRomanNumerals(/* num */) {
-  throw new Error('Not implemented');
+function convertToRomanNumerals(num) {
+  const strNum = `${num}`;
+  let firstDigit = '';
+  let lastDigit = '';
+  if (strNum[strNum.length - 1] === '0') lastDigit = '';
+  if (strNum[strNum.length - 1] === '1') lastDigit = 'I';
+  if (strNum[strNum.length - 1] === '2') lastDigit = 'II';
+  if (strNum[strNum.length - 1] === '3') lastDigit = 'III';
+  if (strNum[strNum.length - 1] === '4') lastDigit = 'IV';
+  if (strNum[strNum.length - 1] === '5') lastDigit = 'V';
+  if (strNum[strNum.length - 1] === '6') lastDigit = 'VI';
+  if (strNum[strNum.length - 1] === '7') lastDigit = 'VII';
+  if (strNum[strNum.length - 1] === '8') lastDigit = 'VIII';
+  if (strNum[strNum.length - 1] === '9') lastDigit = 'IX';
+  if (strNum.length === 2) {
+    if (strNum[0] === '1') firstDigit = 'X';
+    if (strNum[0] === '2') firstDigit = 'XX';
+    if (strNum[0] === '3') firstDigit = 'XXX';
+  }
+  return `${firstDigit}${lastDigit}`;
 }
 
 /**
@@ -336,8 +354,50 @@ function rotateMatrix(/* matrix */) {
  *  [2, 9, 5, 9]    => [2, 5, 9, 9]
  *  [-2, 9, 5, -3]  => [-3, -2, 5, 9]
  */
-function sortByAsc(/* arr */) {
-  throw new Error('Not implemented');
+function sortByAsc(arr) {
+  function merge(arr1, arr2) {
+    const arrSorted = [];
+    let i = 0;
+    let j = 0;
+    for (let k = 0; k < arr1.length + arr2.length; k += 1) {
+      if (arr1[i] !== undefined && arr2[j] !== undefined && arr1[i] < arr2[j]) {
+        arrSorted[k] = arr1[i];
+        i += 1;
+      } else if (
+        arr1[i] !== undefined &&
+        arr2[j] !== undefined &&
+        arr1[i] >= arr2[j]
+      ) {
+        arrSorted[k] = arr2[j];
+        j += 1;
+      } else if (arr1[i] !== undefined && arr2[j] === undefined) {
+        arrSorted[k] = arr1[i];
+        i += 1;
+      } else {
+        arrSorted[k] = arr2[j];
+        j += 1;
+      }
+    }
+    return arrSorted;
+  }
+
+  const array = arr;
+
+  if (array.length <= 1) {
+    return array;
+  }
+
+  const middle = Math.floor(arr.length / 2);
+  const arrLeft = [];
+  for (let i = 0; i < middle; i += 1) {
+    arrLeft[i] = array[i];
+  }
+
+  const arrRight = [];
+  for (let i = middle; i < array.length; i += 1) {
+    arrRight[i - middle] = array[i];
+  }
+  return merge(sortByAsc(arrLeft), sortByAsc(arrRight));
 }
 
 /**
