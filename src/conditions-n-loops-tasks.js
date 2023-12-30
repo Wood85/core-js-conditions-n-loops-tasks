@@ -273,8 +273,21 @@ function isContainNumber(num, digit) {
  *  [2, 3, 9, 5] => 2       => 2 + 3 === 5 then balance element is 9 and its index = 2
  *  [1, 2, 3, 4, 5] => -1   => no balance element
  */
-function getBalanceIndex(/* arr */) {
-  throw new Error('Not implemented');
+function getBalanceIndex(arr) {
+  const array = arr;
+  if (array.length < 3) return -1;
+  const middle = Math.floor(array.length / 2);
+  let leftSum = 0;
+  for (let i = 0; i < middle; i += 1) {
+    leftSum += array[i];
+  }
+
+  let rightSum = 0;
+  for (let i = middle + 1; i < array.length; i += 1) {
+    rightSum += array[i];
+  }
+  if (leftSum === rightSum) return middle;
+  return -1;
 }
 
 /**
@@ -336,8 +349,27 @@ function getSpiralMatrix(size) {
  *    [7, 8, 9]         [9, 6, 3]
  *  ]                 ]
  */
-function rotateMatrix(/* matrix */) {
-  throw new Error('Not implemented');
+function rotateMatrix(matrix) {
+  const m = matrix;
+  const matrixClone = [];
+  for (let i = 0; i < matrix.length; i += 1) {
+    const tempArr = [];
+    for (let j = 0; j < matrix[i].length; j += 1) {
+      tempArr[j] = matrix[i][j];
+    }
+    matrixClone[i] = tempArr;
+  }
+
+  for (let i = 0; i < matrixClone.length; i += 1) {
+    const tempArr = [];
+    let count = 0;
+    for (let j = matrixClone[0].length - 1; j >= 0; j -= 1) {
+      tempArr[count] = matrixClone[j][i];
+      count += 1;
+    }
+    m[i] = tempArr;
+  }
+  return m;
 }
 
 /**
@@ -354,50 +386,51 @@ function rotateMatrix(/* matrix */) {
  *  [2, 9, 5, 9]    => [2, 5, 9, 9]
  *  [-2, 9, 5, -3]  => [-3, -2, 5, 9]
  */
-function sortByAsc(arr) {
-  function merge(arr1, arr2) {
-    const arrSorted = [];
-    let i = 0;
-    let j = 0;
-    for (let k = 0; k < arr1.length + arr2.length; k += 1) {
-      if (arr1[i] !== undefined && arr2[j] !== undefined && arr1[i] < arr2[j]) {
-        arrSorted[k] = arr1[i];
-        i += 1;
-      } else if (
-        arr1[i] !== undefined &&
-        arr2[j] !== undefined &&
-        arr1[i] >= arr2[j]
-      ) {
-        arrSorted[k] = arr2[j];
-        j += 1;
-      } else if (arr1[i] !== undefined && arr2[j] === undefined) {
-        arrSorted[k] = arr1[i];
-        i += 1;
-      } else {
-        arrSorted[k] = arr2[j];
-        j += 1;
-      }
-    }
-    return arrSorted;
-  }
+function sortByAsc(/* arr */) {
+  throw new Error('Not implemented');
+  // function merge(arr1, arr2) {
+  //   const arrSorted = [];
+  //   let i = 0;
+  //   let j = 0;
+  //   for (let k = 0; k < arr1.length + arr2.length; k += 1) {
+  //     if (arr1[i] !== undefined && arr2[j] !== undefined && arr1[i] < arr2[j]) {
+  //       arrSorted[k] = arr1[i];
+  //       i += 1;
+  //     } else if (
+  //       arr1[i] !== undefined &&
+  //       arr2[j] !== undefined &&
+  //       arr1[i] >= arr2[j]
+  //     ) {
+  //       arrSorted[k] = arr2[j];
+  //       j += 1;
+  //     } else if (arr1[i] !== undefined && arr2[j] === undefined) {
+  //       arrSorted[k] = arr1[i];
+  //       i += 1;
+  //     } else {
+  //       arrSorted[k] = arr2[j];
+  //       j += 1;
+  //     }
+  //   }
+  //   return arrSorted;
+  // }
 
-  const array = arr;
+  // const array = arr;
 
-  if (array.length <= 1) {
-    return array;
-  }
+  // if (array.length <= 1) {
+  //   return array;
+  // }
 
-  const middle = Math.floor(arr.length / 2);
-  const arrLeft = [];
-  for (let i = 0; i < middle; i += 1) {
-    arrLeft[i] = array[i];
-  }
+  // const middle = Math.floor(arr.length / 2);
+  // const arrLeft = [];
+  // for (let i = 0; i < middle; i += 1) {
+  //   arrLeft[i] = array[i];
+  // }
 
-  const arrRight = [];
-  for (let i = middle; i < array.length; i += 1) {
-    arrRight[i - middle] = array[i];
-  }
-  return merge(sortByAsc(arrLeft), sortByAsc(arrRight));
+  // const arrRight = [];
+  // for (let i = middle; i < array.length; i += 1) {
+  //   arrRight[i - middle] = array[i];
+  // }
+  // return merge(sortByAsc(arrLeft), sortByAsc(arrRight));
 }
 
 /**
