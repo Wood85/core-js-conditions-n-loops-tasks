@@ -385,51 +385,41 @@ function rotateMatrix(matrix) {
  *  [2, 9, 5, 9]    => [2, 5, 9, 9]
  *  [-2, 9, 5, -3]  => [-3, -2, 5, 9]
  */
-function sortByAsc(/* arr */) {
-  throw new Error('Not implemented');
-  // function merge(arr1, arr2) {
-  //   const arrSorted = [];
-  //   let i = 0;
-  //   let j = 0;
-  //   for (let k = 0; k < arr1.length + arr2.length; k += 1) {
-  //     if (arr1[i] !== undefined && arr2[j] !== undefined && arr1[i] < arr2[j]) {
-  //       arrSorted[k] = arr1[i];
-  //       i += 1;
-  //     } else if (
-  //       arr1[i] !== undefined &&
-  //       arr2[j] !== undefined &&
-  //       arr1[i] >= arr2[j]
-  //     ) {
-  //       arrSorted[k] = arr2[j];
-  //       j += 1;
-  //     } else if (arr1[i] !== undefined && arr2[j] === undefined) {
-  //       arrSorted[k] = arr1[i];
-  //       i += 1;
-  //     } else {
-  //       arrSorted[k] = arr2[j];
-  //       j += 1;
-  //     }
-  //   }
-  //   return arrSorted;
-  // }
+function sortByAsc(arr) {
+  const array = arr;
 
-  // const array = arr;
+  function partition(start, end) {
+    const pivotValue = arr[end];
+    let partitionIndex = start;
 
-  // if (array.length <= 1) {
-  //   return array;
-  // }
+    for (let j = start; j < end; j += 1) {
+      if (array[j] < pivotValue) {
+        const temp = array[partitionIndex];
+        array[partitionIndex] = array[j];
+        array[j] = temp;
+        partitionIndex += 1;
+      }
+    }
 
-  // const middle = Math.floor(arr.length / 2);
-  // const arrLeft = [];
-  // for (let i = 0; i < middle; i += 1) {
-  //   arrLeft[i] = array[i];
-  // }
+    const temp = arr[partitionIndex];
+    array[partitionIndex] = array[end];
+    array[end] = temp;
 
-  // const arrRight = [];
-  // for (let i = middle; i < array.length; i += 1) {
-  //   arrRight[i - middle] = array[i];
-  // }
-  // return merge(sortByAsc(arrLeft), sortByAsc(arrRight));
+    return partitionIndex;
+  }
+
+  function quickSort(start, end) {
+    if (start >= end) {
+      return;
+    }
+
+    const index = partition(start, end);
+    quickSort(start, index - 1);
+    quickSort(index + 1, end);
+  }
+
+  quickSort(0, array.length - 1);
+  return array;
 }
 
 /**
@@ -449,8 +439,39 @@ function sortByAsc(/* arr */) {
  *  '012345', 3 => '024135' => '043215' => '031425'
  *  'qwerty', 3 => 'qetwry' => 'qtrewy' => 'qrwtey'
  */
-function shuffleChar(/* str, iterations */) {
-  throw new Error('Not implemented');
+function shuffleChar(str, iterations) {
+  let res = '';
+  let repeatIteration;
+
+  const map = {};
+
+  const shuffleOdd = (initStr) => {
+    let newString = '';
+
+    for (let i = 0; i < initStr.length; i += 1) {
+      if (!(i % 2)) newString += initStr[i];
+    }
+
+    for (let i = 0; i < initStr.length; i += 1) {
+      if (i % 2) newString += initStr[i];
+    }
+
+    return newString;
+  };
+
+  for (let i = 0; i < iterations; i += 1) {
+    if (res === str) {
+      repeatIteration = i;
+      break;
+    }
+
+    res = shuffleOdd(res || str);
+    map[i] = res;
+  }
+
+  return !repeatIteration
+    ? res
+    : map[(iterations % repeatIteration || repeatIteration) - 1];
 }
 
 /**
@@ -470,8 +491,30 @@ function shuffleChar(/* str, iterations */) {
  * @param {number} number The source number
  * @returns {number} The nearest larger number, or original number if none exists.
  */
-function getNearestBigger(/* number */) {
-  throw new Error('Not implemented');
+function getNearestBigger(number) {
+  let digits = [...`${number}`].map(Number);
+  let i = digits.length - 2;
+
+  while (i >= 0 && digits[i] >= digits[i + 1]) {
+    i -= 1;
+  }
+
+  if (i === -1) {
+    return -1;
+  }
+
+  let j = digits.length - 1;
+  while (digits[j] <= digits[i]) {
+    j -= 1;
+  }
+
+  [digits[i], digits[j]] = [digits[j], digits[i]];
+
+  const right = digits.splice(i + 1);
+  right.sort((a, b) => a - b);
+  digits = [...digits, ...right];
+
+  return parseInt(digits.join(''), 10);
 }
 
 module.exports = {
